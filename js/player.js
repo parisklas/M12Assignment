@@ -1,3 +1,22 @@
+let myAlbums = [
+    'Operation Ivy : Energy',
+    'Blink 182 : Dude Ranch',
+    'New Found Glory : Sticks and Stones',
+    'The Off Season : J. Cole',
+    'Chilombo : Jhene Aiko'
+]
+
+const dropdown = document.getElementById('songs');
+document.addEventListener('DOMContentLoaded', function () {
+    for(let i = 0; i < myAlbums.length; i++) {
+        let option = document.createElement('option');
+        option.text = myAlbums[i];
+        option.value = myAlbums[i];
+        dropdown.appendChild(option);
+    }
+})
+
+
 class Jukebox {
     constructor(albums) {
         this.albums = []
@@ -31,21 +50,60 @@ class Album {
     }
 }
 
-var jbox = new Jukebox()
-const album1 = new Album('Operation Ivy', 'Energy')
-const album2 = new Album('Blink 182', 'Dude Ranch')
-const album3 = new Album('New Found Glory', 'Sticks and Stones')
+let jbox = new Jukebox()
+for (let i = 0; i < myAlbums.length; i++) {
+    let [artist, title] = myAlbums[i].split(' : ');
+    let album = new Album(artist, title);
+    jbox.addAlbum(album);
+}
 
-jbox.addAlbum(album1)
-jbox.addAlbum(album2)
-jbox.addAlbum(album3)
+let playButton = document.getElementById('playBtn');
 
-album1.play()
-album2.play()
-album2.play()
-album2.play()
-album2.play()
-album2.play()
-album3.play()
+playButton.addEventListener('click', function() {
+    console.log('button pressed')
+    let selection = dropdown.value;
+    let selectedAlbum = jbox.albums.find(album => `${album.artist} : ${album.title}` === selection)
+    if (selectedAlbum) {
+        selectedAlbum.play();
+        console.log(`${selection} was played.`)
+        console.log(jbox);
+    }
+})
 
-console.log(`Your favorite album is: ${jbox.favoriteAlbum()}`)
+let faveButton = document.getElementById('faveBtn');
+
+faveButton.addEventListener('click', function() {
+    let faveAlbum = jbox.favoriteAlbum();
+    document.getElementById('favoriteAlbum').innerHTML = `Your favorite album is: ${faveAlbum}`;
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const album1 = new Album('Operation Ivy', 'Energy')
+// const album2 = new Album('Blink 182', 'Dude Ranch')
+// const album3 = new Album('New Found Glory', 'Sticks and Stones')
+
+// jbox.addAlbum(album1)
+// jbox.addAlbum(album2)
+// jbox.addAlbum(album3)
+
+// album1.play()
+// album2.play()
+// album2.play()
+// album2.play()
+// album2.play()
+// album2.play()
+// album3.play()
+
+// console.log(`Your favorite album is: ${jbox.favoriteAlbum()}`)
